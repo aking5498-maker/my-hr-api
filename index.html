@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تطبيق الأذكار اليومية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,18 +11,32 @@
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         body {
-            background-color: #f0f4f8;
+            background-color: #eef2f5;
             color: #2c3e50;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        /* إطار الموبايل الرئيسي */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
         }
         /* الشريط العلوي */
         .top-bar {
             background-color: #0b3c5d;
             color: #fff;
-            padding: 8px 20px;
-            font-size: 13px;
+            padding: 5px 12px;
+            font-size: 11px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -30,159 +44,153 @@
         .status-indicator {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
         .dot {
-            width: 9px;
-            height: 9px;
+            width: 7px;
+            height: 7px;
             background-color: #2ecc71;
             border-radius: 50%;
             display: inline-block;
-            box-shadow: 0 0 5px #2ecc71;
         }
-        /* الهيدر */
+        /* الهيدر المصغر */
         header {
             background: linear-gradient(135deg, #0d47a1, #1976d2);
             color: white;
-            padding: 30px 20px;
+            padding: 18px 12px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            border-bottom: 4px solid #d4af37;
+            border-bottom: 3px solid #d4af37;
         }
         header h1 {
-            font-size: 28px;
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: 5px;
         }
         header p {
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.9;
         }
-        /* شريط التنقل */
+        /* شريط التنقل للموبايل */
         nav {
             background-color: #fff;
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            justify-content: space-around;
+            padding: 8px 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid #e0e0e0;
         }
         .nav-btn {
             background: none;
             border: 1px solid #1976d2;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 600;
             color: #1976d2;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 6px 10px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s;
+            flex: 1;
+            margin: 0 3px;
+            text-align: center;
+            transition: all 0.2s;
         }
-        .nav-btn:hover, .nav-btn.active {
+        .nav-btn.active {
             background-color: #1976d2;
             color: white;
         }
-        .container {
-            max-width: 700px;
-            margin: 30px auto;
-            padding: 0 15px;
+        /* محتوى التطبيق */
+        .content {
+            padding: 12px;
+            flex: 1;
         }
         .card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
             display: none;
         }
         .card.active-view {
             display: block;
         }
-        /* بطاقات الأذكار */
+        .card-title {
+            color: #0d47a1;
+            font-size: 16px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 700;
+        }
+        /* بطاقات الأذكار المصغرة */
         .dhikr-box {
             background: #f8fbff;
-            border-right: 5px solid #1976d2;
-            border-left: 1px solid #e3f2fd;
+            border-right: 4px solid #1976d2;
             border-top: 1px solid #e3f2fd;
+            border-left: 1px solid #e3f2fd;
             border-bottom: 1px solid #e3f2fd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
             text-align: center;
-            position: relative;
         }
         .dhikr-text {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 600;
             color: #1a237e;
-            margin-bottom: 12px;
-            line-height: 1.8;
+            margin-bottom: 8px;
+            line-height: 1.6;
         }
         .dhikr-bless {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 15px;
+            font-size: 11px;
+            color: #777;
+            margin-bottom: 10px;
         }
         .counter-btn {
             background-color: #1976d2;
             color: white;
             border: none;
-            padding: 10px 25px;
-            font-size: 16px;
+            padding: 6px 18px;
+            font-size: 13px;
             font-weight: bold;
-            border-radius: 25px;
+            border-radius: 18px;
             cursor: pointer;
-            transition: background 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .counter-btn:hover {
-            background-color: #0d47a1;
+            width: 100%;
+            transition: background 0.2s;
         }
         .counter-btn.done {
             background-color: #2ecc71;
-            cursor: default;
         }
-        /* المسبحة الإلكترونية */
+        /* المسبحة الإلكترونية للموبايل */
         .tasbeeh-container {
             text-align: center;
-            padding: 30px 10px;
+            padding: 15px 5px;
         }
         .tasbeeh-count {
-            font-size: 55px;
+            font-size: 42px;
             font-weight: bold;
             color: #0d47a1;
-            margin: 20px 0;
             background: #e3f2fd;
-            width: 130px;
-            height: 130px;
-            line-height: 130px;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
             border-radius: 50%;
-            margin: 0 auto 20px auto;
-            border: 4px dashed #1976d2;
+            margin: 15px auto;
+            border: 3px dashed #1976d2;
         }
         .btn-reset {
             background-color: #e74c3c;
             color: white;
             border: none;
-            padding: 8px 18px;
-            border-radius: 15px;
+            padding: 6px 14px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 13px;
-            margin-top: 15px;
+            font-size: 11px;
+            margin-top: 10px;
         }
         /* التذييل */
         footer {
             text-align: center;
-            padding: 25px;
+            padding: 15px 10px;
             background-color: #0a192f;
             color: #8892b0;
-            font-size: 13px;
-            margin-top: 50px;
+            font-size: 11px;
+            margin-top: auto;
         }
         footer span {
             color: #fff;
@@ -191,103 +199,106 @@
         .visitor-counter {
             background-color: #1b365d;
             color: #64ffda;
-            padding: 6px 15px;
-            border-radius: 20px;
+            padding: 4px 10px;
+            border-radius: 12px;
             display: inline-block;
-            font-size: 13px;
-            margin-top: 10px;
+            font-size: 11px;
+            margin-top: 6px;
         }
     </style>
 </head>
 <body>
 
-    <!-- الشريط العلوي -->
-    <div class="top-bar">
-        <div class="status-indicator">
-            <span class="dot"></span>
-            <span>تطبيق الأذكار - متصل</span>
+    <div class="app-container">
+        <!-- الشريط العلوي -->
+        <div class="top-bar">
+            <div class="status-indicator">
+                <span class="dot"></span>
+                <span>تطبيق الأذكار</span>
+            </div>
+            <div>📿 حصن المسلم</div>
         </div>
-        <div>📿 أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
-    </div>
 
-    <!-- الترويسة -->
-    <header>
-        <h1>حصن المسلم والأذكار اليومية</h1>
-        <p>دليلك اليومي للحفاظ على أذكار الصباح والمساء والاستغفار</p>
-    </header>
+        <!-- الهيدر -->
+        <header>
+            <h1>الأذكار اليومية</h1>
+            <p>حصنك اليومي من الأذكار والتسابيح</p>
+        </header>
 
-    <!-- شريط التنقل -->
-    <nav>
-        <button class="nav-btn active" onclick="switchTab('sabahTab', this)">أذكار الصباح</button>
-        <button class="nav-btn" onclick="switchTab('masaaTab', this)">أذكار المساء</button>
-        <button class="nav-btn" onclick="switchTab('tasbeehTab', this)">المسبحة الإلكترونية</button>
-    </nav>
+        <!-- شريط التنقل -->
+        <nav>
+            <button class="nav-btn active" onclick="switchTab('sabahTab', this)">الصباح</button>
+            <button class="nav-btn" onclick="switchTab('masaaTab', this)">المساء</button>
+            <button class="nav-btn" onclick="switchTab('tasbeehTab', this)">المسبحة</button>
+        </nav>
 
-    <div class="container">
-        
-        <!-- أذكار الصباح -->
-        <div id="sabahTab" class="card active-view">
-            <h2 style="color: #0d47a1; margin-bottom: 20px; text-align: center;">☀️ أذكار الصباح</h2>
+        <!-- المحتوى -->
+        <div class="content">
             
-            <div class="dhikr-box">
-                <div class="dhikr-text">"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ"</div>
-                <div class="dhikr-bless">مرة واحدة</div>
-                <button class="counter-btn" onclick="countDhikr(this, 1)">المتبقي: <span>1</span></button>
+            <!-- أذكار الصباح -->
+            <div id="sabahTab" class="card active-view">
+                <div class="card-title">☀️ أذكار الصباح</div>
+                
+                <div class="dhikr-box">
+                    <div class="dhikr-text">"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ"</div>
+                    <div class="dhikr-bless">مرة واحدة</div>
+                    <button class="counter-btn" onclick="countDhikr(this, 1)">المتبقي: <span>1</span></button>
+                </div>
+
+                <div class="dhikr-box">
+                    <div class="dhikr-text">"اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ"</div>
+                    <div class="dhikr-bless">مرة واحدة</div>
+                    <button class="counter-btn" onclick="countDhikr(this, 1)">المتبقي: <span>1</span></button>
+                </div>
+
+                <div class="dhikr-box">
+                    <div class="dhikr-text">"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ"</div>
+                    <div class="dhikr-bless">ثلاث مرات</div>
+                    <button class="counter-btn" onclick="countDhikr(this, 3)">المتبقي: <span>3</span></button>
+                </div>
             </div>
 
-            <div class="dhikr-box">
-                <div class="dhikr-text">"اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ"</div>
-                <div class="dhikr-bless">مرة واحدة</div>
-                <button class="counter-btn" onclick="countDhikr(this, 1)">المتبقي: <span>1</span></button>
+            <!-- أذكار المساء -->
+            <div id="masaaTab" class="card">
+                <div class="card-title">🌙 أذكار المساء</div>
+
+                <div class="dhikr-box">
+                    <div class="dhikr-text">"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ"</div>
+                    <div class="dhikr-bless">مرة واحدة</div>
+                    <button class="counter-btn" onclick="countDhikr(this, 1)">المتبقي: <span>1</span></button>
+                </div>
+
+                <div class="dhikr-box">
+                    <div class="dhikr-text">"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ"</div>
+                    <div class="dhikr-bless">ثلاث مرات</div>
+                    <button class="counter-btn" onclick="countDhikr(this, 3)">المتبقي: <span>3</span></button>
+                </div>
             </div>
 
-            <div class="dhikr-box">
-                <div class="dhikr-text">"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ"</div>
-                <div class="dhikr-bless">ثلاث مرات</div>
-                <button class="counter-btn" onclick="countDhikr(this, 3)">المتبقي: <span>3</span></button>
+            <!-- المسبحة الإلكترونية -->
+            <div id="tasbeehTab" class="card">
+                <div class="card-title">📿 المسبحة الإلكترونية</div>
+                <div class="tasbeeh-container">
+                    <div class="tasbeeh-count" id="freeCounter">0</div>
+                    <button class="counter-btn" style="font-size: 18px; padding: 12px 0;" onclick="addTasbeeh()">اضغط للتسبيح 📿</button>
+                    <br>
+                    <button class="btn-reset" onclick="resetTasbeeh()">إعادة ضبط العداد</button>
+                </div>
             </div>
+
         </div>
 
-        <!-- أذكار المساء -->
-        <div id="masaaTab" class="card">
-            <h2 style="color: #0d47a1; margin-bottom: 20px; text-align: center;">🌙 أذكار المساء</h2>
-
-            <div class="dhikr-box">
-                <div class="dhikr-text">"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ"</div>
-                <div class="dhikr-bless">مرة واحدة</div>
-                <button class="counter-btn" onclick="countDhikr(this, 1)">المتبقي: <span>1</span></button>
+        <!-- التذييل -->
+        <footer>
+            <p>تصميم وبرمجة: <span>م. عبدالباري فرحات</span></p>
+            <p style="margin-top: 3px;">واتساب: <a href="tel:0919892021" style="color: #64ffda; text-decoration: none;">0919892021</a></p>
+            
+            <div class="visitor-counter">
+                👁️ عدد الزوار: <span id="visitorCount">1</span>
             </div>
-
-            <div class="dhikr-box">
-                <div class="dhikr-text">"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ"</div>
-                <div class="dhikr-bless">ثلاث مرات</div>
-                <button class="counter-btn" onclick="countDhikr(this, 3)">المتبقي: <span>3</span></button>
-            </div>
-        </div>
-
-        <!-- المسبحة الإلكترونية -->
-        <div id="tasbeehTab" class="card">
-            <h2 style="color: #0d47a1; margin-bottom: 15px; text-align: center;">📿 المسبحة الإلكترونية</h2>
-            <div class="tasbeeh-container">
-                <p style="color: #555;">اضغط على العداد للتسبيح</p>
-                <div class="tasbeeh-count" id="freeCounter">0</div>
-                <button class="counter-btn" style="font-size: 20px; padding: 15px 40px;" onclick="addTasbeeh()">سبّح 📿</button>
-                <br>
-                <button class="btn-reset" onclick="resetTasbeeh()">إعادة ضبط العداد</button>
-            </div>
-        </div>
-
+            <p style="margin-top: 6px; font-size: 10px; opacity: 0.6;">صدقة جارية - نسألكم الدعاء</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>تم تصميم وبرمجة التطبيق بواسطة: <span>م. عبدالباري سعدون فرحات</span></p>
-        <p style="margin-top: 5px;">رقم التواصل / واتساب: <a href="tel:0919892021" style="color: #64ffda; text-decoration: none;">0919892021</a></p>
-        
-        <div class="visitor-counter">
-            👁️ عدد زوار التطبيق: <span id="visitorCount">1</span>
-        </div>
-        <p style="margin-top: 10px; font-size: 11px; opacity: 0.6;">صدقة جارية - نسألكم الدعاء</p>
-    </footer>
 
     <script>
         function switchTab(tabId, btnElement) {
@@ -321,15 +332,14 @@
             document.getElementById('freeCounter').innerText = freeCount;
         }
 
-        // عداد الزيارات
         window.addEventListener('DOMContentLoaded', () => {
-            let visits = localStorage.getItem('adhkar_visitor_count');
+            let visits = localStorage.getItem('adhkar_mobile_visits');
             if (!visits) {
-                visits = 1050; 
+                visits = 1200; 
             } else {
                 visits = parseInt(visits) + 1;
             }
-            localStorage.setItem('adhkar_visitor_count', visits);
+            localStorage.setItem('adhkar_mobile_visits', visits);
             document.getElementById('visitorCount').innerText = visits;
         });
     </script>
